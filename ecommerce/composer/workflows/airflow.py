@@ -4,19 +4,19 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
 
-launchClusterScript = 'gsutil -m cp gs://tfm-jcg/scripts/createCluster.sh /home/airflow/gcs/dags &&' \
+launchClusterScript = 'gsutil -m cp gs://tfm-jcg/scripts/createCluster.sh /home/airflow/gcs/dags && ' \
     'chmod -R 777 /home/airflow/gcs/dags && ' \
     '/home/airflow/gcs/dags/createCluster.sh'
 
-removeClusterScript = 'gsutil -m cp gs://tfm-jcg/scripts/removeCluster.sh /home/airflow/gcs/dags &&' \
+removeClusterScript = 'gsutil -m cp gs://tfm-jcg/scripts/removeCluster.sh /home/airflow/gcs/dags && ' \
     'chmod -R 777 /home/airflow/gcs/dags && ' \
     '/home/airflow/gcs/dags/removeCluster.sh'
 
-launchtriggerDataprocJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags &&' \
+launchtriggerDataprocJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
     'chmod -R 777 /home/airflow/gcs/dags && ' \
     '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/ '
 
-launchSparkBigQuery = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags &&' \
+launchSparkBigQuery = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
     'chmod -R 777 /home/airflow/gcs/dags && ' \
     '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/ '
 
