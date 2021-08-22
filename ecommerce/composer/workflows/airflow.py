@@ -4,13 +4,14 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
 
+
 launchClusterScript = 'gsutil -m cp gs://tfm-jcg/scripts/createCluster.sh /home/airflow/gcs/dags && ' \
     'chmod -R 777 /home/airflow/gcs/dags && ' \
-    '/home/airflow/gcs/dags/createCluster.sh'
+    '/home/airflow/gcs/dags/createCluster.sh '
 
 removeClusterScript = 'gsutil -m cp gs://tfm-jcg/scripts/removeCluster.sh /home/airflow/gcs/dags && ' \
     'chmod -R 777 /home/airflow/gcs/dags && ' \
-    '/home/airflow/gcs/dags/removeCluster.sh'
+    '/home/airflow/gcs/dags/removeCluster.sh '
 
 launchtriggerDataprocJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
     'chmod -R 777 /home/airflow/gcs/dags && ' \

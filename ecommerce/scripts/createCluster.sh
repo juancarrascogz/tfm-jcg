@@ -16,7 +16,7 @@ ZONE="${REGION}-a"
 
 
 gcloud dataproc clusters create ${PROJECT}-${USER_NAME}-cluster \
-    --scopes bigquery, pubsub \
+    --scopes pubsub,bigquery,cloud-platform  \
     --image-version 1.4 \
     --master-machine-type n1-standard-2 \
     --master-boot-disk-size 15 \
