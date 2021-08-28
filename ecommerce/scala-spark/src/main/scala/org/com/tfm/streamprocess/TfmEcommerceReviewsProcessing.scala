@@ -8,6 +8,15 @@ import org.com.tfm.utils.{TfmEcommerceConstants, TfmEcommerceUtils}
 
 object TfmEcommerceReviewsProcessing extends TfmEcommerceConstants{
 
+  case class Review(
+    review_id: String,
+    order_id: String,
+    review_score: String,
+    review_comment_title: String,
+    review_comment_message: String,
+    review_creation_date: String,
+    review_answer_timestamp: String)
+
   def reviewsMain(topicName: String, subscriptionName: String, ssc: StreamingContext)
   (implicit spark: SparkSession): StreamingContext = {
 
@@ -20,7 +29,10 @@ object TfmEcommerceReviewsProcessing extends TfmEcommerceConstants{
       .transform(extractReviews(_))
 
     streamedReview.foreachRDD(
-      rdd => rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, REVIEWS_TABLE))
+      rdd => {
+        rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, REVIEWS_TABLE))
+        rdd.toDF().show(false)
+      }
     )
 
     ssc

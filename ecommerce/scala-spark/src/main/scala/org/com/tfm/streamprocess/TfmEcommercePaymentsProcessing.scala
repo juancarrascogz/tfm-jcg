@@ -8,6 +8,13 @@ import org.com.tfm.utils.{TfmEcommerceConstants, TfmEcommerceUtils}
 
 object TfmEcommercePaymentsProcessing extends TfmEcommerceConstants{
 
+  case class Payment(
+    order_id: String,
+    payment_sequential: String,
+    payment_type: String,
+    payment_installments: String,
+    payment_value: String)
+
   def paymentsMain(topicName: String, subscriptionName: String, ssc: StreamingContext)
   (implicit spark: SparkSession): StreamingContext = {
 
@@ -20,7 +27,10 @@ object TfmEcommercePaymentsProcessing extends TfmEcommerceConstants{
       .transform(extractPayments(_))
 
     streamedPayment.foreachRDD(
-      rdd => rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, PAYMENTS_TABLE))
+      rdd => {
+        rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, PAYMENTS_TABLE))
+        rdd.toDF().show(false)
+      }
     )
 
     ssc

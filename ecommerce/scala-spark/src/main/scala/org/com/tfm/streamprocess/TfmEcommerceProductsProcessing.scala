@@ -8,6 +8,17 @@ import org.com.tfm.utils.{TfmEcommerceConstants, TfmEcommerceUtils}
 
 object TfmEcommerceProductsProcessing extends TfmEcommerceConstants{
 
+  case class Product(
+    product_id: String,
+    product_category_name: String,
+    product_name_lenght: String,
+    product_description_lenght: String,
+    product_photos_qty: String,
+    product_weight_g: String,
+    product_length_cm: String,
+    product_height_cm: String,
+    product_width_cm: String)
+
   def productsMain(topicName: String, subscriptionName: String, ssc: StreamingContext)
   (implicit spark: SparkSession): StreamingContext = {
 
@@ -20,7 +31,10 @@ object TfmEcommerceProductsProcessing extends TfmEcommerceConstants{
       .transform(extractProducts(_))
 
     streamedProducts.foreachRDD(
-      rdd => rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, PRODUCTS_TABLE))
+      rdd => {
+        rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, PRODUCTS_TABLE))
+        rdd.toDF().show(false)
+      }
     )
 
     ssc

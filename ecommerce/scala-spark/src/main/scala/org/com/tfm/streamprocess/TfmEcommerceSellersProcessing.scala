@@ -8,6 +8,13 @@ import org.com.tfm.utils.{TfmEcommerceConstants, TfmEcommerceUtils}
 
 object TfmEcommerceSellersProcessing extends TfmEcommerceConstants{
 
+  case class Seller(
+    seller_id: String,
+    seller_zip_code_prefix: String,
+    seller_city: String,
+    seller_state: String
+  )
+
   def sellersMain(topicName: String, subscriptionName: String, ssc: StreamingContext)
   (implicit spark: SparkSession): StreamingContext = {
 
@@ -20,7 +27,10 @@ object TfmEcommerceSellersProcessing extends TfmEcommerceConstants{
       .transform(extractSellers(_))
 
     streamedSeller.foreachRDD(
-      rdd => rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, SELLERS_TABLE))
+      rdd => {
+        rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, SELLERS_TABLE))
+        rdd.toDF().show(false)
+      }
     )
 
     ssc
@@ -34,10 +44,7 @@ object TfmEcommerceSellersProcessing extends TfmEcommerceConstants{
         item(0),
         item(1),
         item(2),
-        item(3),
-        item(4),
-        item(5),
-        item(6)
+        item(3)
       ))
   }
 }

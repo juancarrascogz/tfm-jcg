@@ -2,7 +2,7 @@ package org.com.tfm.utils
 
 import java.nio.charset.StandardCharsets
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.dstream.DStream
@@ -14,6 +14,7 @@ object TfmEcommerceUtils extends TfmEcommerceConstants {
   (inputDf: DataFrame)(implicit spark: SparkSession): DataFrame = {
 
     inputDf.write.format("bigquery")
+      .mode(SaveMode.Append)
       .option("table", s"$dataset.$table")
       .save()
 

@@ -8,6 +8,13 @@ import org.com.tfm.utils.{TfmEcommerceConstants, TfmEcommerceUtils}
 
 object TfmEcommerceGeolocationProcessing extends TfmEcommerceConstants{
 
+  case class Geolocation(
+    geolocation_zip_code_prefix: String,
+    geolocation_lat: String,
+    geolocation_lng: String,
+    geolocation_city: String,
+    geolocation_state: String)
+
   def geolocationMain(topicName: String, subscriptionName: String, ssc: StreamingContext)
   (implicit spark: SparkSession): StreamingContext = {
 
@@ -20,7 +27,10 @@ object TfmEcommerceGeolocationProcessing extends TfmEcommerceConstants{
       .transform(extractGeolocation(_))
 
     streamedGeolocation.foreachRDD(
-      rdd => rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, GEOLOCATION_TABLE))
+      rdd => {
+        rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, GEOLOCATION_TABLE))
+        rdd.toDF().show(false)
+      }
     )
 
     ssc

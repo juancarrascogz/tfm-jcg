@@ -8,6 +8,13 @@ import org.com.tfm.utils.{TfmEcommerceConstants, TfmEcommerceUtils}
 
 object TfmEcommerceCustomersProcessing extends TfmEcommerceConstants{
 
+  case class Customer(
+    customer_id: String,
+    customer_unique_id: String,
+    customer_zip_code_prefix: String,
+    customer_city: String,
+    customer_state: String)
+
   def customersMain(topicName: String, subscriptionName: String, ssc: StreamingContext)
   (implicit spark: SparkSession): StreamingContext = {
 
@@ -20,7 +27,10 @@ object TfmEcommerceCustomersProcessing extends TfmEcommerceConstants{
       .transform(extractCustomers(_))
 
     streamedCustomers.foreachRDD(
-      rdd => rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, CUSTOMERS_TABLE))
+      rdd => {
+        rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, CUSTOMERS_TABLE))
+        rdd.toDF().show(false)
+      }
     )
 
     ssc

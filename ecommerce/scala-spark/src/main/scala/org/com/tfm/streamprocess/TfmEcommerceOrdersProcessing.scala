@@ -9,6 +9,17 @@ import org.com.tfm.utils.TfmEcommerceUtils
 
 object TfmEcommerceOrdersProcessing extends TfmEcommerceConstants{
 
+  case class Order(
+    order_id: String,
+    customer_id: String,
+    order_status: String,
+    order_purchase_timestamp: String,
+    order_approved_at: String,
+    order_delivered_carrier_date: String,
+    order_delivered_customer_date: String,
+    order_estimated_delivery_date: String
+  )
+
   def ordersMain(topicName: String, subscriptionName: String, ssc: StreamingContext)
   (implicit spark: SparkSession): StreamingContext = {
 
@@ -21,7 +32,10 @@ object TfmEcommerceOrdersProcessing extends TfmEcommerceConstants{
       .transform(extractOrders(_))
 
     streamedOrders.foreachRDD(
-      rdd => rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, ORDERS_TABLE))
+      rdd => {
+        rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, ORDERS_TABLE))
+        rdd.toDF().show(false)
+      }
     )
 
     ssc
