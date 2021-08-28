@@ -13,14 +13,41 @@ removeClusterScript = 'gsutil -m cp gs://tfm-jcg/scripts/removeCluster.sh /home/
     'chmod -R 777 /home/airflow/gcs/dags && ' \
     '/home/airflow/gcs/dags/removeCluster.sh '
 
-launchtriggerDataprocJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
+launchOrdersStreamJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
     'chmod -R 777 /home/airflow/gcs/dags && ' \
-    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/ '
+    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/pubsub_spark-assembly-0.1.0-SNAPSHOT.jar orders'
 
-launchSparkBigQuery = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
+launchProductsStreamJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
     'chmod -R 777 /home/airflow/gcs/dags && ' \
-    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/ '
+    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/pubsub_spark-assembly-0.1.0-SNAPSHOT.jar products'
 
+launchCustomersStreamJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
+    'chmod -R 777 /home/airflow/gcs/dags && ' \
+    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/pubsub_spark-assembly-0.1.0-SNAPSHOT.jar customers'
+
+launchGeolocationStreamJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
+    'chmod -R 777 /home/airflow/gcs/dags && ' \
+    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/pubsub_spark-assembly-0.1.0-SNAPSHOT.jar geolocation'
+
+launchItemsStreamJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
+    'chmod -R 777 /home/airflow/gcs/dags && ' \
+    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/pubsub_spark-assembly-0.1.0-SNAPSHOT.jar order-items'
+
+launchReviewsStreamJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
+    'chmod -R 777 /home/airflow/gcs/dags && ' \
+    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/pubsub_spark-assembly-0.1.0-SNAPSHOT.jar order-reviews'
+
+launchPaymentsStreamJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
+    'chmod -R 777 /home/airflow/gcs/dags && ' \
+    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/pubsub_spark-assembly-0.1.0-SNAPSHOT.jar payments'
+
+launchSellersStreamJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
+    'chmod -R 777 /home/airflow/gcs/dags && ' \
+    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/pubsub_spark-assembly-0.1.0-SNAPSHOT.jar sellers'
+
+launchFunctionalJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /home/airflow/gcs/dags && ' \
+    'chmod -R 777 /home/airflow/gcs/dags && ' \
+    '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/pubsub_spark-assembly-0.1.0-SNAPSHOT.jar functional'
 
 default_args = {
     'owner': 'Airflow',
@@ -45,15 +72,57 @@ launchCluster = BashOperator(
     dag=dag
 )
 
-launchStreamingJob = BashOperator(
-    task_id='triggerDataprocJob',
-    bash_command=launchtriggerDataprocJob,
+readOrders = BashOperator(
+    task_id='launchOrdersStreamJob-Airflow',
+    bash_command=launchOrdersStreamJob,
     dag=dag
 )
 
-launchSparkBigQueryJob = BashOperator(
-    task_id='triggerDataprocJob_2',
-    bash_command=launchSparkBigQuery,
+readProducts = BashOperator(
+    task_id='launchProductsStreamJob-Airflow',
+    bash_command=launchProductsStreamJob,
+    dag=dag
+)
+
+readCustomers = BashOperator(
+    task_id='launchCustomersStreamJob-Airflow',
+    bash_command=launchCustomersStreamJob,
+    dag=dag
+)
+
+readGeolocation = BashOperator(
+    task_id='launchGeolocationStreamJob-Airflow',
+    bash_command=launchGeolocationStreamJob,
+    dag=dag
+)
+
+readItems = BashOperator(
+    task_id='launchItemsStreamJob-Airflow',
+    bash_command=launchItemsStreamJob,
+    dag=dag
+)
+
+readReviews = BashOperator(
+    task_id='launchReviewsStreamJob-Airflow',
+    bash_command=launchReviewsStreamJob,
+    dag=dag
+)
+
+readPayments = BashOperator(
+    task_id='launchPaymentsStreamJob-Airflow',
+    bash_command=launchPaymentsStreamJob,
+    dag=dag
+)
+
+readSellers = BashOperator(
+    task_id='launchSellersStreamJob-Airflow',
+    bash_command=launchSellersStreamJob,
+    dag=dag
+)
+
+functionalLogic = BashOperator(
+    task_id='launchFunctionalJob-Airflow',
+    bash_command=launchFunctionalJob,
     dag=dag
 )
 
@@ -63,4 +132,6 @@ removeCluster = BashOperator(
     dag=dag
 )
 
-launchCluster >> launchStreamingJob >> launchSparkBigQueryJob >> removeCluster
+
+
+launchCluster >> [readOrders, readProducts, readCustomers, readGeolocation, readItems, readReviews, readPayments, readSellers] >> functionalLogic >> removeCluster
