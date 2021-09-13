@@ -132,6 +132,9 @@
     <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpclient:4.5.6:jar" level="project" />
     <orderEntry type="library" name="sbt: org.apache.httpcomponents:httpcore:4.4.10:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.apache.ivy:ivy:2.4.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.logging.log4j:log4j-api-scala_2.11:12.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.logging.log4j:log4j-api:2.13.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.apache.logging.log4j:log4j-core:2.13.0:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.apache.orc:orc-core:1.5.5:nohive:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.apache.orc:orc-mapreduce:1.5.5:nohive:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.apache.orc:orc-shims:1.5.5:jar" level="project" />
@@ -197,7 +200,7 @@
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.scala-lang.modules:scala-parser-combinators_2.11:1.1.0:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.scala-lang.modules:scala-xml_2.11:1.0.6:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.11.12:jar" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="sbt: org.scala-lang:scala-reflect:2.11.12:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-reflect:2.11.12:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.slf4j:jcl-over-slf4j:1.7.16:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.slf4j:jul-to-slf4j:1.7.16:jar" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="sbt: org.slf4j:slf4j-api:1.7.25:jar" level="project" />

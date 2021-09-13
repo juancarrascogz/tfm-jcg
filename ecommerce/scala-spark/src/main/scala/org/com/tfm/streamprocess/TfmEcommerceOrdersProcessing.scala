@@ -35,6 +35,7 @@ object TfmEcommerceOrdersProcessing extends TfmEcommerceConstants{
       rdd => {
         rdd.toDF().transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, ORDERS_TABLE))
         rdd.toDF().show(false)
+        logger.info(s"Stream processed with ${rdd.toDF().count} values")
       }
     )
 

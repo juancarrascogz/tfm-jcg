@@ -7,6 +7,8 @@ object TfmEcommerceFunctional extends TfmEcommerceConstants{
 
   def tfmEcommerceFunctionalMain(implicit spark: SparkSession): Unit = {
 
+    logger.info("Functional Process Start")
+
     TfmEcommerceUtils
       .readFromBigquery(DATASET_NAME, CUSTOMERS_TABLE)
       .transform(leftOuterJoinEcommerce(TfmEcommerceUtils.readFromBigquery(DATASET_NAME, ORDERS_TABLE), "customer_id"))
@@ -20,6 +22,8 @@ object TfmEcommerceFunctional extends TfmEcommerceConstants{
       .withColumnRenamed("seller_state", "geolocation_state")
       .transform(leftOuterJoinEcommerce(TfmEcommerceUtils.readFromBigquery(DATASET_NAME, GEOLOCATION_TABLE), "geolocation_zip_code_prefix", "geolocation_city", "geolocation_state"))
       .transform(TfmEcommerceUtils.writeToBigquery(DATASET_NAME, COMPLETE_DATASET_TABLE_NAME))
+
+      logger.info("Functional Process Ended")
   }
 
   def leftOuterJoinEcommerce(rightDf: DataFrame, joinKey: String*)(leftDf: DataFrame): DataFrame =

@@ -1,6 +1,7 @@
 package org.com.tfm.utils
+import org.apache.logging.log4j.scala.Logging
 
-trait TfmEcommerceConstants {
+trait TfmEcommerceConstants extends Logging {
 
   val PROJECT_ID: String = "proyecto-ucm-315417"
 
