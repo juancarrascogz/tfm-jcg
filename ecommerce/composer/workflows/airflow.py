@@ -49,6 +49,11 @@ launchFunctionalJob = 'gsutil -m cp gs://tfm-jcg/scripts/triggerDataprocJob.sh /
     'chmod -R 777 /home/airflow/gcs/dags && ' \
     '/home/airflow/gcs/dags/triggerDataprocJob.sh proyecto-ucm-315417-juandelsolete-cluster gs://tfm-jcg/jars/pubsub_spark-assembly-0.1.0-SNAPSHOT.jar functional'
 
+launchDashboardRefresh = 'gsutil -m cp gs://tfm-jcg/scripts/refreshDashboardScript.py /home/airflow/gcs/dags && ' \
+    'chmod -R 777 /home/airflow/gcs/dags && ' \
+    'python refreshDashboardScript.py'
+
+
 default_args = {
     'owner': 'Airflow',
     'depends_on_past': True,
@@ -126,6 +131,12 @@ functionalLogic = BashOperator(
     dag=dag
 )
 
+dashboardRefreshLogic = BashOperator(
+    task_id='launchDashboardRefresh-Airflow',
+    bash_command=launchDashboardRefresh,
+    dag=dag
+)
+
 removeCluster = BashOperator(
     task_id='RemoveCluster',
     bash_command=removeClusterScript,
@@ -134,4 +145,4 @@ removeCluster = BashOperator(
 
 
 
-launchCluster >> [readOrders, readProducts, readCustomers, readGeolocation, readItems, readReviews, readPayments, readSellers] >> functionalLogic >> removeCluster
+launchCluster >> [readOrders, readProducts, readCustomers, readGeolocation, readItems, readReviews, readPayments, readSellers] >> functionalLogic >> removeCluster >> dashboardRefreshLogic
