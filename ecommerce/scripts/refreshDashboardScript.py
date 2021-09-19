@@ -5,7 +5,7 @@ import tableauserverclient as TSC
 user='' # username Tableau
 password='' # password Tableau
 tableau_auth = TSC.TableauAuth(user, password)
-server = TSC.Server('http://10.1.0.1')
+server = TSC.Server('127.0.0.1') # localhost
 server.version = '3.6'
 
 with server.auth.sign_in(tableau_auth):
