@@ -1,3 +1,5 @@
+from tableausdk import *
+from tableausdk.HyperExtract import *
 import tableauserverclient as TSC
 
 user='' # username Tableau
